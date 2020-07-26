@@ -1,0 +1,11 @@
+[package]
+name = "mojang-api"
+version = "0.1.0"
+authors = ["shirokuro <46kuro212@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+thiserror = "1.0"
+anyhow = "1.0"
+reqwest = { version = "0.10", features = ["json"] }
+tokio = { version = "0.2", features = ["full"] }
