@@ -23,6 +23,29 @@ pub enum MojangServer {
     MojangCom,
 }
 
+impl MojangServer {
+    /// Returns `true` when a status for the server is informational.  
+    /// Currently, status of some servers are always 'red'.
+    pub fn is_used(&self) -> bool {
+        match self {
+            MojangServer::MinecraftNet => false,
+            MojangServer::Session => true,
+            MojangServer::Account => true,
+            MojangServer::AuthServer => true,
+            MojangServer::SessionServer => false,
+            MojangServer::Api => true,
+            MojangServer::Textures => true,
+            MojangServer::MojangCom => false,
+        }
+    }
+
+    /// Returns `true` when a status for the server is **not** informational.  
+    /// See: [`is_used`]: #method.is_used
+    pub fn is_unused(&self) -> bool {
+        !self.is_used()
+    }
+}
+
 impl fmt::Display for MojangServer {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let string = match self {
