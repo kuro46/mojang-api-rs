@@ -1,7 +1,7 @@
-use std::str::FromStr;
-use thiserror::Error;
 use std::convert::From;
 use std::fmt;
+use std::str::FromStr;
+use thiserror::Error;
 
 #[derive(Debug, PartialOrd, PartialEq, Eq, Ord)]
 pub enum MojangServer {
@@ -52,7 +52,7 @@ impl FromStr for MojangServer {
             "api.mojang.com" => MojangServer::Api,
             "textures.minecraft.net" => MojangServer::Textures,
             "mojang.com" => MojangServer::MojangCom,
-            _ => return Err(StatusError::UnknownServer(s.to_string()))
+            _ => return Err(StatusError::UnknownServer(s.to_string())),
         })
     }
 }
@@ -65,11 +65,11 @@ pub enum ApiStatus {
 }
 
 impl fmt::Display for ApiStatus {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result  {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let string = match self {
             ApiStatus::Red => "red",
             ApiStatus::Yellow => "yellow",
-            ApiStatus::Green => "green"
+            ApiStatus::Green => "green",
         };
         write!(f, "{}", string)
     }
@@ -83,7 +83,7 @@ impl FromStr for ApiStatus {
             "green" => ApiStatus::Green,
             "yellow" => ApiStatus::Yellow,
             "red" => ApiStatus::Red,
-            _ => return Err(StatusError::UnknownStatus(s.to_string()))
+            _ => return Err(StatusError::UnknownStatus(s.to_string())),
         })
     }
 }

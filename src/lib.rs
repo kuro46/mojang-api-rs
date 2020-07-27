@@ -1,9 +1,9 @@
 pub mod status;
 
+use crate::status::*;
+use std::collections::BTreeMap;
 use std::str::FromStr;
 use std::vec::Vec;
-use std::collections::BTreeMap;
-use crate::status::*;
 
 pub async fn retrieve_status() -> Result<BTreeMap<MojangServer, ApiStatus>, StatusError> {
     let strings = reqwest::get("https://status.mojang.com/check")
@@ -16,11 +16,13 @@ pub async fn retrieve_status() -> Result<BTreeMap<MojangServer, ApiStatus>, Stat
             panic!("Maybe mojang's format changed")
         }
         let (server, status) = map.iter().next().unwrap();
-        converted.insert(MojangServer::from_str(&server)?, ApiStatus::from_str(&status)?);
+        converted.insert(
+            MojangServer::from_str(&server)?,
+            ApiStatus::from_str(&status)?,
+        );
     }
     Ok(converted)
 }
-
 
 #[cfg(test)]
 mod tests {
