@@ -1,9 +1,9 @@
 use std::str::FromStr;
-use std::string::ToString;
 use thiserror::Error;
 use std::vec::Vec;
 use std::convert::From;
 use std::collections::BTreeMap;
+use std::fmt;
 
 pub async fn retrieve_status() -> Result<BTreeMap<MojangServer, ApiStatus>, StatusError> {
     let strings = reqwest::get("https://status.mojang.com/check")
@@ -41,9 +41,9 @@ pub enum MojangServer {
     MojangCom,
 }
 
-impl ToString for MojangServer {
-    fn to_string(&self) -> String {
-        match self {
+impl fmt::Display for MojangServer {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let string = match self {
             MojangServer::MinecraftNet => "minecraft.net",
             MojangServer::Session => "session.minecraft.net",
             MojangServer::Account => "account.mojang.com",
@@ -52,7 +52,8 @@ impl ToString for MojangServer {
             MojangServer::Api => "api.mojang.com",
             MojangServer::Textures => "textures.minecraft.net",
             MojangServer::MojangCom => "mojang.com",
-        }.to_string()
+        };
+        write!(f, "{}", string)
     }
 }
 
@@ -74,19 +75,21 @@ impl FromStr for MojangServer {
     }
 }
 
+#[derive(Debug, PartialOrd, PartialEq)]
 pub enum ApiStatus {
     Green,
     Yellow,
     Red,
 }
 
-impl ToString for ApiStatus {
-    fn to_string(&self) -> String {
-        match self {
+impl fmt::Display for ApiStatus {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result  {
+        let string = match self {
             ApiStatus::Red => "red",
             ApiStatus::Yellow => "yellow",
             ApiStatus::Green => "green"
-        }.to_string()
+        };
+        write!(f, "{}", string)
     }
 }
 
